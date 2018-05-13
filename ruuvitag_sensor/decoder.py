@@ -148,7 +148,7 @@ class Df3Decoder(object):
                 'acceleration_x': acc_x,
                 'acceleration_y': acc_y,
                 'acceleration_z': acc_z,
-                'battery': self._get_battery(byte_data)
+                'battery': self._get_battery(byte_data),
             }
         except Exception:
             log.exception('Value: %s not valid', data)

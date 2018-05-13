@@ -37,7 +37,7 @@ class RuuviTag(object):
             dict: Latest state
         """
 
-        (data_format, data) = RuuviTagSensor.get_data(self._mac, self._bt_device)
+        (data_format, data, rssi) = RuuviTagSensor.get_data(self._mac, self._bt_device)
 
         if data == self._data:
             return self._state
@@ -48,5 +48,6 @@ class RuuviTag(object):
             self._state = {}
         else:
             self._state = get_decoder(data_format).decode_data(self._data)
+            self._state['rssi'] = rssi
 
         return self._state

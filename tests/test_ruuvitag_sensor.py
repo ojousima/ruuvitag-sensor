@@ -27,6 +27,7 @@ class TestRuuviTagSensor(TestCase):
         self.assertEqual(state['temperature'], 24)
         self.assertEqual(state['pressure'], 995)
         self.assertEqual(state['humidity'], 30)
+        self.assertEqual(state['rssi'], -51)
 
     def test_false_mac_raise_error(self):
         with self.assertRaises(ValueError):
