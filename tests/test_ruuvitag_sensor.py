@@ -76,7 +76,9 @@ class TestRuuviTagSensor(TestCase):
         self.assertTrue('CC:2C:6A:1E:59:3D' in data)
         self.assertTrue('DD:2C:6A:1E:59:3D' in data)
         self.assertTrue(data['CC:2C:6A:1E:59:3D']['temperature'] == 24.0)
+        self.assertTrue(data['CC:2C:6A:1E:59:3D']['rssi'] == -51)
         self.assertTrue(data['EE:2C:6A:1E:59:3D']['temperature'] == 25.12)
+        self.assertTrue(data['EE:2C:6A:1E:59:3D']['rssi'] == -61)
         self.assertTrue(data['EE:2C:6A:1E:59:3D']['identifier'] == '0')
 
     def test_convert_data_not_valid(self):

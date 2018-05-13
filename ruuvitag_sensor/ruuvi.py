@@ -54,24 +54,25 @@ class RuuviTagSensor(object):
             rssi = int(raw[-2:], 16)
             if rssi > 0x7F:
                 rssi -= 0x100
+
+            if data is not None:
+                return (2, data, rssi)
+
+            data = RuuviTagSensor._get_data_format_3(raw)
+
+            if data is not None:
+                return (3, data, rssi)
+
+            data = RuuviTagSensor._get_data_format_5(raw)
+
+            if data is not None:
+                return (5, data, rssi)
+
+            return (None, None, None)
+
         except Exception:
             log.exception('Value: %s not valid', data)
             return (None, None, None)
-
-        if data is not None:
-            return (2, data, rssi)
-
-        data = RuuviTagSensor._get_data_format_3(raw)
-
-        if data is not None:
-            return (3, data, rssi)
-
-        data = RuuviTagSensor._get_data_format_5(raw)
-
-        if data is not None:
-            return (5, data, rssi)
-
-        return (None, None, None)
 
     @staticmethod
     def find_ruuvitags(bt_device=''):
@@ -172,6 +173,7 @@ class RuuviTagSensor(object):
             # If data is not valid RuuviTag data add MAC to blacklist
             if data is not None:
                 state = get_decoder(data_format).decode_data(data)
+                state['rssi'] = rssi
                 if state is not None:
                     yield (ble_data[0], state)
             else:
